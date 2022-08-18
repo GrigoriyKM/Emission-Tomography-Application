@@ -139,3 +139,7 @@ icons/
 
 #executable files
 *.exe
+
+#numpy files
+*.npy
+
