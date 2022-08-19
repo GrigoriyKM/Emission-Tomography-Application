@@ -33,21 +33,19 @@ def extract_receivers(gather_files):
 
 
 def create_data_for_events(tensor_moments_, tensor_indexes, t, time_in_milliseconds, sources, max_ampl_index):
-    data = [[float('{:.3f}'.format(tensor_moments_[tensor_indexes[int(t)]][0])),
-             float('{:.3f}'.format(tensor_moments_[tensor_indexes[int(t)]][1])),
-             float('{:.3f}'.format(tensor_moments_[tensor_indexes[int(t)]][2])),
-             float('{:.3f}'.format(tensor_moments_[tensor_indexes[int(t)]][3])),
-             float('{:.3f}'.format(tensor_moments_[tensor_indexes[int(t)]][4])),
-             float('{:.3f}'.format(tensor_moments_[tensor_indexes[int(t)]][5])),
-             float('{:.3f}'.format(time_in_milliseconds / 1000)),
-             float('{:.2f}'.format(sources[max_ampl_index][0])), float('{:.2f}'.format(sources[max_ampl_index][1])),
-             float('{:.2f}'.format(sources[max_ampl_index][2]))
-             ]]
+    current_tensor_moment_list = tensor_moments_[tensor_indexes[int(t)]]
+    data = [list(map(lambda cell: float(f'{cell:.3f}'), current_tensor_moment_list)) +
+            [float(f'{time_in_milliseconds / 1000:.3f}'), float(f'{sources[max_ampl_index][0]:.2f}'),
+             float(f'{sources[max_ampl_index][1]:.2f}'), float(f'{sources[max_ampl_index][2]:.2f}')]]
+
     df = pd.DataFrame(np.array(data),
                       columns=['M11', 'M22', 'M33', 'M23', 'M13', 'M12', 'SOU_TIME', 'SOU_Z', 'SOU_Y', 'SOU_X'])
     return df
 
 
+CHECKED = 2
+UNCHECKED = 0
+TENSOR_MATRIX_SIZE = 6
 tensor_moments = np.array([
     [1., 1., 1., 0., 0., 0.],
     [-1., 1., 0., 0., 0., 0.],
@@ -75,28 +73,36 @@ class TableInfo:
 
 
 @dataclass
-class ChartsInfo:
-    gather: np.ndarray
-    travel_times: np.ndarray
-    receivers: np.ndarray
-    max_ampl_index: np.int64
-    dt: float
-    current_sample: int
-    detect_func: np.ndarray
-    window: int
-    n_receivers: int
-    n_samples: int
+class SourcesSurface:
     sou_min_x: np.float64
     sou_max_x: np.float64
     sou_min_y: np.float64
     sou_max_y: np.float64
-    frame_by_t: np.ndarray
     sou_x_length: int
     sou_y_length: int
+
+
+@dataclass
+class SummationComponents:
+    gather: np.ndarray
+    travel_times: np.ndarray
+    receivers: np.ndarray
+    sources: np.ndarray
+    dt: float
+    current_sample: int
+    time_in_milliseconds: float
+    window: int
     enabled_tensor_moments: np.ndarray
     tensor_indexes: np.ndarray
-    time_in_milliseconds: float
-    sources: np.ndarray
+
+
+@dataclass
+class ChartsInfo:
+    max_ampl_index: np.int64
+    detect_func: np.ndarray
+    n_receivers: int
+    n_samples: int
+    frame_by_t: np.ndarray
     df: pd.DataFrame
 
 
