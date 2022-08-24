@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'EmissionTomographyApp.ui'
+# Form implementation generated from reading ui file 'ui_interface.ui'
 #
 # Created by: PyQt5 UI code generator 5.12
 #
@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1278, 916)
+        MainWindow.resize(1451, 946)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -72,7 +72,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.addLayout(self.horizontalLayout_12)
         self.horizontalLayout_22 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_22.setSizeConstraint(QtWidgets.QLayout.SetMinimumSize)
-        self.horizontalLayout_22.setContentsMargins(-1, 0, -1, 7)
+        self.horizontalLayout_22.setContentsMargins(-1, 0, -1, 0)
         self.horizontalLayout_22.setSpacing(10)
         self.horizontalLayout_22.setObjectName("horizontalLayout_22")
         self.label_22 = QtWidgets.QLabel(self.tab_2)
@@ -336,9 +336,14 @@ class Ui_MainWindow(object):
         self.line_6.setObjectName("line_6")
         self.horizontalLayout_10.addWidget(self.line_6)
         self.gridLayout = QtWidgets.QGridLayout()
+        self.gridLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
         self.gridLayout.setContentsMargins(0, -1, 0, 0)
-        self.gridLayout.setSpacing(0)
+        self.gridLayout.setHorizontalSpacing(2)
+        self.gridLayout.setVerticalSpacing(0)
         self.gridLayout.setObjectName("gridLayout")
+        self.gather_widget = MPLWidget(self.tab_2)
+        self.gather_widget.setObjectName("gather_widget")
+        self.gridLayout.addWidget(self.gather_widget, 0, 1, 1, 1)
         self.coherent_semblance_widget = MPLWidget(self.tab_2)
         self.coherent_semblance_widget.setObjectName("coherent_semblance_widget")
         self.gridLayout.addWidget(self.coherent_semblance_widget, 0, 0, 1, 1)
@@ -350,6 +355,7 @@ class Ui_MainWindow(object):
         self.detect_function_widget.setObjectName("detect_function_widget")
         self.verticalLayout_5.addWidget(self.detect_function_widget)
         self.horizontalLayout_13 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_13.setContentsMargins(-1, -1, 0, -1)
         self.horizontalLayout_13.setSpacing(0)
         self.horizontalLayout_13.setObjectName("horizontalLayout_13")
         self.horizontalSlider = QtWidgets.QSlider(self.tab_2)
@@ -379,12 +385,17 @@ class Ui_MainWindow(object):
         self.detect_function_spinBox.setObjectName("detect_function_spinBox")
         self.horizontalLayout_13.addWidget(self.detect_function_spinBox)
         self.verticalLayout_5.addLayout(self.horizontalLayout_13)
-        self.gridLayout.addLayout(self.verticalLayout_5, 1, 0, 1, 1)
-        self.gather_widget = MPLWidget(self.tab_2)
-        self.gather_widget.setObjectName("gather_widget")
-        self.gridLayout.addWidget(self.gather_widget, 0, 1, 1, 1)
+        self.gridLayout.addLayout(self.verticalLayout_5, 2, 0, 1, 1)
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_2.setSizeConstraint(QtWidgets.QLayout.SetMinimumSize)
+        self.verticalLayout_2.setContentsMargins(-1, -1, 0, 0)
+        self.verticalLayout_2.setSpacing(0)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.tensor_moment_widget = MPLWidgetSimple(self.tab_2)
+        self.tensor_moment_widget.setObjectName("tensor_moment_widget")
+        self.verticalLayout_2.addWidget(self.tensor_moment_widget)
         self.tableWidget = QtWidgets.QTableWidget(self.tab_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.tableWidget.sizePolicy().hasHeightForWidth())
@@ -397,7 +408,7 @@ class Ui_MainWindow(object):
         self.tableWidget.setLineWidth(0)
         self.tableWidget.setMidLineWidth(0)
         self.tableWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
-        self.tableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.tableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tableWidget.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
         self.tableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
@@ -414,9 +425,10 @@ class Ui_MainWindow(object):
         self.tableWidget.horizontalHeader().setStretchLastSection(False)
         self.tableWidget.verticalHeader().setCascadingSectionResizes(True)
         self.tableWidget.verticalHeader().setStretchLastSection(True)
-        self.gridLayout.addWidget(self.tableWidget, 1, 1, 1, 1)
+        self.verticalLayout_2.addWidget(self.tableWidget)
+        self.verticalLayout_2.setStretch(1, 5)
+        self.gridLayout.addLayout(self.verticalLayout_2, 2, 1, 1, 1)
         self.horizontalLayout_10.addLayout(self.gridLayout)
-        self.horizontalLayout_10.setStretch(2, 3)
         self.tabWidget.addTab(self.tab_2, "")
         self.tab_3 = QtWidgets.QWidget()
         self.tab_3.setObjectName("tab_3")
@@ -567,7 +579,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Emission Tomography"))
-        MainWindow.setStatusTip(_translate("MainWindow", "Version 0.1"))
+        MainWindow.setStatusTip(_translate("MainWindow", "Version 0.2"))
         self.label_15.setText(_translate("MainWindow", "Window size"))
         self.window_size_spinBox.setSuffix(_translate("MainWindow", "ms"))
         self.label_22.setText(_translate("MainWindow", "dt"))
@@ -587,6 +599,7 @@ class Ui_MainWindow(object):
 
 
 from mplwidget import MPLWidget
+from mplwidgetsimple import MPLWidgetSimple
 import icons_rc
 
 

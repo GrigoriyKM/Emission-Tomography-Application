@@ -4,6 +4,7 @@ from ui_interface import Ui_MainWindow
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QTableWidgetItem, QMessageBox, QHeaderView
 from cohsum.reader.seism.tomography.segy_tomography_seism_reader import SegyTomographySeismReader
 from utils import *
+import obspy
 
 
 class MyAPP(QMainWindow):
@@ -120,6 +121,7 @@ class MyAPP(QMainWindow):
         self.update_gather_chart()
         self.update_detect_function_chart()
         self.update_semblance_chart()
+        self.update_tensor_moment_chart()
         self.update_tensor_moments_table_by_t()
         self.ui.horizontalSlider.setEnabled(True)
         self.ui.detect_function_spinBox.setEnabled(True)
@@ -144,6 +146,7 @@ class MyAPP(QMainWindow):
         self.update_gather_chart()
         self.update_detect_function_chart()
         self.update_semblance_chart()
+        self.update_tensor_moment_chart()
         self.update_tensor_moments_table_by_t()
 
     def update_gather_chart(self):
@@ -190,6 +193,19 @@ class MyAPP(QMainWindow):
             SummationComponents.sources[ChartsInfo.max_ampl_index][2],
             SummationComponents.sources[ChartsInfo.max_ampl_index][1], 'pg')
         self.ui.coherent_semblance_widget.canvas.draw()
+
+    def update_tensor_moment_chart(self):
+        tensor_moment = SummationComponents.enabled_tensor_moments[
+            SummationComponents.tensor_indexes[SummationComponents.current_sample]].copy()
+        tensor_moment[[3, 5]] = SummationComponents.enabled_tensor_moments[
+            SummationComponents.tensor_indexes[SummationComponents.current_sample]][[5, 3]]
+        self.ui.tensor_moment_widget.canvas.axes.clear()
+        self.ui.tensor_moment_widget.canvas.axes.autoscale()
+        self.ui.tensor_moment_widget.canvas.axes.set_axis_off()
+        self.ui.tensor_moment_widget.canvas.axes.add_collection(
+            obspy.imaging.mopad_wrapper.beach(
+                tensor_moment, facecolor='red', axes=self.ui.tensor_moment_widget.canvas.axes))
+        self.ui.tensor_moment_widget.canvas.draw()
 
     def update_tensor_moments_table_by_t(self):
         self.ui.tableWidget.setRowCount(ChartsInfo.df.shape[0])

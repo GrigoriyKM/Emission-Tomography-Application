@@ -1,6 +1,7 @@
 CoherentSummation.egg==info
 matplotlib==3.5.2
 numpy==1.21.5
+obspy==1.2.2
 pandas==1.3.3
 PyQt5==5.15.7
 segyio==1.9.7
