@@ -391,6 +391,8 @@ class MyAPP(QMainWindow):
 
 def main():
     app = QApplication(sys.argv)
+    with open("Combinear.qss", 'r') as style_sheet_file:
+        app.setStyleSheet(style_sheet_file.read())
     window = MyAPP()
     window.show()
     sys.exit(app.exec())

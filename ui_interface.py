@@ -30,42 +30,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_9 = QtWidgets.QHBoxLayout(self.centralwidget)
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
-        self.tabWidget.setStyleSheet("QTabWidget::tabWidget { /* The tab widget frame */\n"
-"    border-top: 2px solid #C2C7CB;\n"
-"}\n"
-"\n"
-"QTabWidget::tabWidget {\n"
-"    left: 5px; /* move to the right by 5px */\n"
-"}\n"
-"\n"
-"/* Style the tab using the tab sub-control. Note that\n"
-"    it reads QTabBar _not_ QTabWidget */\n"
-"QTabBar::tab {\n"
-"    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
-"                                stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,\n"
-"                                stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);\n"
-"    border: 2px solid #C4C4C3;\n"
-"    border-bottom-color: #C2C7CB; /* same as the pane color */\n"
-"    border-top-left-radius: 4px;\n"
-"    border-top-right-radius: 4px;\n"
-"    min-width: 8ex;\n"
-"    padding: 2px;\n"
-"}\n"
-"\n"
-"QTabBar::tab:selected, QTabBar::tab:hover {\n"
-"    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
-"                                stop: 0 #fafafa, stop: 0.4 #f4f4f4,\n"
-"                                stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);\n"
-"}\n"
-"\n"
-"QTabBar::tab:selected {\n"
-"    border-color: #9B9B9B;\n"
-"    border-bottom-color: #C2C7CB; /* same as pane color */\n"
-"}\n"
-"\n"
-"QTabBar::tab:!selected {\n"
-"    margin-top: 2px; /* make non-selected tabs look smaller */\n"
-"}")
+        self.tabWidget.setStyleSheet("")
         self.tabWidget.setObjectName("tabWidget")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
@@ -357,25 +322,11 @@ class Ui_MainWindow(object):
         self.plot_pushButton = QtWidgets.QPushButton(self.tab_2)
         self.plot_pushButton.setEnabled(False)
         font = QtGui.QFont()
-        font.setPointSize(-1)
         font.setBold(True)
         font.setItalic(False)
         font.setWeight(75)
         self.plot_pushButton.setFont(font)
-        self.plot_pushButton.setStyleSheet("QPushButton#plot_pushButton {\n"
-"    background-color: gray;\n"
-"    border-style: outset;\n"
-"    border-width: 2px;\n"
-"    border-radius: 10px;\n"
-"    border-color: beige;\n"
-"    font: bold 14px;\n"
-"    min-width: 10em;\n"
-"    padding: 6px;\n"
-"}\n"
-"QPushButton#plot_pushButton:pressed {\n"
-"    background-color: rgb(115, 115, 115);\n"
-"    border-style: inset;\n"
-"}")
+        self.plot_pushButton.setStyleSheet("")
         self.plot_pushButton.setObjectName("plot_pushButton")
         self.verticalLayout_4.addWidget(self.plot_pushButton)
         self.horizontalLayout_10.addLayout(self.verticalLayout_4)
@@ -544,7 +495,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_16.addWidget(self.frame)
         self.verticalLayout_8 = QtWidgets.QVBoxLayout()
         self.verticalLayout_8.setContentsMargins(0, -1, -1, -1)
-        self.verticalLayout_8.setSpacing(0)
+        self.verticalLayout_8.setSpacing(8)
         self.verticalLayout_8.setObjectName("verticalLayout_8")
         self.update_tensor_moments_pushButton = QtWidgets.QPushButton(self.tab_3)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -553,20 +504,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.update_tensor_moments_pushButton.sizePolicy().hasHeightForWidth())
         self.update_tensor_moments_pushButton.setSizePolicy(sizePolicy)
         self.update_tensor_moments_pushButton.setToolTip("")
-        self.update_tensor_moments_pushButton.setStyleSheet("QPushButton#update_tensor_moments_pushButton {\n"
-"    background-color: gray;\n"
-"    border-style: outset;\n"
-"    border-width: 2px;\n"
-"    border-radius: 10px;\n"
-"    border-color: beige;\n"
-"    font: bold 14px;\n"
-"    min-width: 10em;\n"
-"    padding: 6px;\n"
-"}\n"
-"QPushButton#update_tensor_moments_pushButton:pressed {\n"
-"    background-color: rgb(115, 115, 115);\n"
-"    border-style: inset;\n"
-"}")
+        self.update_tensor_moments_pushButton.setStyleSheet("")
         icon6 = QtGui.QIcon()
         icon6.addPixmap(QtGui.QPixmap(":/icons/icons/feather-version-1-1/svg/repeat-434386.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.update_tensor_moments_pushButton.setIcon(icon6)
@@ -579,20 +517,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.add_row_pushButton.sizePolicy().hasHeightForWidth())
         self.add_row_pushButton.setSizePolicy(sizePolicy)
-        self.add_row_pushButton.setStyleSheet("QPushButton#add_row_pushButton {\n"
-"    background-color: gray;\n"
-"    border-style: outset;\n"
-"    border-width: 2px;\n"
-"    border-radius: 10px;\n"
-"    border-color: beige;\n"
-"    font: bold 14px;\n"
-"    min-width: 10em;\n"
-"    padding: 6px;\n"
-"}\n"
-"QPushButton#add_row_pushButton:pressed {\n"
-"    background-color: rgb(115, 115, 115);\n"
-"    border-style: inset;\n"
-"}")
+        self.add_row_pushButton.setStyleSheet("")
         icon7 = QtGui.QIcon()
         icon7.addPixmap(QtGui.QPixmap(":/icons/icons/feather-version-1-1/svg/marquee-434366.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.add_row_pushButton.setIcon(icon7)
@@ -606,44 +531,17 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.delete_row_pushButton.sizePolicy().hasHeightForWidth())
         self.delete_row_pushButton.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
-        font.setPointSize(-1)
-        font.setBold(True)
+        font.setBold(False)
         font.setItalic(False)
-        font.setWeight(75)
+        font.setWeight(50)
         self.delete_row_pushButton.setFont(font)
-        self.delete_row_pushButton.setStyleSheet("QPushButton#delete_row_pushButton {\n"
-"    background-color: gray;\n"
-"    border-style: outset;\n"
-"    border-width: 2px;\n"
-"    border-radius: 10px;\n"
-"    border-color: beige;\n"
-"    font: bold 14px;\n"
-"    min-width: 10em;\n"
-"    padding: 6px;\n"
-"}\n"
-"QPushButton#delete_row_pushButton:pressed {\n"
-"    background-color: rgb(115, 115, 115);\n"
-"    border-style: inset;\n"
-"}")
+        self.delete_row_pushButton.setStyleSheet("")
         self.delete_row_pushButton.setIcon(icon3)
         self.delete_row_pushButton.setDefault(False)
         self.delete_row_pushButton.setObjectName("delete_row_pushButton")
         self.verticalLayout_8.addWidget(self.delete_row_pushButton, 0, QtCore.Qt.AlignTop)
         self.upload_pushButton = QtWidgets.QPushButton(self.tab_3)
-        self.upload_pushButton.setStyleSheet("QPushButton#upload_pushButton {\n"
-"    background-color: gray;\n"
-"    border-style: outset;\n"
-"    border-width: 2px;\n"
-"    border-radius: 10px;\n"
-"    border-color: beige;\n"
-"    font: bold 14px;\n"
-"    min-width: 10em;\n"
-"    padding: 6px;\n"
-"}\n"
-"QPushButton#upload_pushButton:pressed {\n"
-"    background-color: rgb(115, 115, 115);\n"
-"    border-style: inset;\n"
-"}")
+        self.upload_pushButton.setStyleSheet("")
         self.upload_pushButton.setIcon(icon1)
         self.upload_pushButton.setObjectName("upload_pushButton")
         self.verticalLayout_8.addWidget(self.upload_pushButton)
