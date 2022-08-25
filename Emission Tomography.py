@@ -4,7 +4,7 @@ from ui_interface import Ui_MainWindow
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QTableWidgetItem, QMessageBox, QHeaderView
 from cohsum.reader.seism.tomography.segy_tomography_seism_reader import SegyTomographySeismReader
 from utils import *
-import obspy
+import obspy.imaging.mopad_wrapper
 
 
 class MyAPP(QMainWindow):
@@ -270,7 +270,7 @@ class MyAPP(QMainWindow):
     @staticmethod
     def delete_files_from_list_widget(list_widget, file_names_list):
         current_row = list_widget.row(list_widget.currentItem())
-        np.delete(file_names_list, current_row)
+        del file_names_list[current_row]
         list_widget.takeItem(current_row)
 
     def set_table_data(self, tensor_moments_data, first_column_item_check_states):
