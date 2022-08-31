@@ -9,7 +9,7 @@ import obspy.imaging.mopad_wrapper
 
 class MyAPP(QMainWindow):
     def __init__(self):
-        QMainWindow.__init__(self)
+        QMainWindow.__init__(self, flags=QtCore.Qt.Window)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         # to load table saved data if exist
@@ -82,6 +82,7 @@ class MyAPP(QMainWindow):
         self.ui.horizontalSlider.setValue(SummationComponents.current_sample)
         SummationComponents.window = self.ui.window_size_spinBox.value()
         SummationComponents.time_in_milliseconds = SummationComponents.current_sample * (SummationComponents.dt * 1000)
+        print(SummationComponents.enabled_tensor_moments)
         ChartsInfo.detect_func, SummationComponents.tensor_indexes = et.compute_detect_func_with_focal_mechanisms(
             SummationComponents.gather, SummationComponents.travel_times,
             SummationComponents.sources, SummationComponents.receivers,
@@ -220,7 +221,8 @@ class MyAPP(QMainWindow):
     def upload_sgy(self):
         cur_dir = os.curdir
         file_filter = 'Data File(s) (*.sgy)'
-        current_gathers = QFileDialog.getOpenFileNames(self, 'Load gathers', cur_dir, filter=file_filter)[0]
+        current_gathers = QFileDialog.getOpenFileNames(self, 'Load gathers', cur_dir, filter=file_filter,
+                                                       options=QFileDialog.Options())[0]
         FileNamesList.gathers.extend(current_gathers)
         for current_gather in current_gathers:
             self.ui.gather_listWidget.addItem(current_gather.split(sep='/')[-1])
@@ -228,7 +230,8 @@ class MyAPP(QMainWindow):
     def upload_tt(self):
         cur_dir = os.curdir
         file_filter = 'Data File(s) (*.npy)'
-        file_names = QFileDialog.getOpenFileNames(self, 'Load travel times', cur_dir, filter=file_filter)[0]
+        file_names = QFileDialog.getOpenFileNames(self, 'Load travel times', cur_dir, filter=file_filter,
+                                                  options=QFileDialog.Options())[0]
         FileNamesList.travel_times.extend(file_names)
         for file_name in file_names:
             self.ui.travel_times_listWidget.addItem(file_name.split(sep='/')[-1])
@@ -236,7 +239,8 @@ class MyAPP(QMainWindow):
     def upload_sc(self):
         cur_dir = os.curdir
         file_filter = 'Data File(s) (*.npy)'
-        file_names = QFileDialog.getOpenFileNames(self, 'Load sources coordinates', cur_dir, filter=file_filter)[0]
+        file_names = QFileDialog.getOpenFileNames(self, 'Load sources coordinates', cur_dir, filter=file_filter,
+                                                  options=QFileDialog.Options())[0]
         FileNamesList.sources.extend(file_names)
         for file_name in file_names:
             self.ui.sources_coords_listWidget.addItem(file_name.split(sep='/')[-1])
@@ -375,17 +379,21 @@ class MyAPP(QMainWindow):
     def upload_tensor_moments(self):
         cur_dir = os.curdir
         file_filter = 'Data File (*.npy)'
-        file_name = QFileDialog.getOpenFileName(self, 'Upload tensor moments', cur_dir, filter=file_filter)[0]
-        uploaded_tensor_moments = np.load(file_name)
-        row_count = self.ui.tensor_moments_tableWidget.rowCount()
-        self.ui.tensor_moments_tableWidget.setRowCount(row_count + uploaded_tensor_moments.shape[0])
-        new_row_count = self.ui.tensor_moments_tableWidget.rowCount()
-        for idx, row_index in enumerate(range(row_count, new_row_count)):
-            for column_index in range(self.ui.tensor_moments_tableWidget.columnCount()):
-                item = QTableWidgetItem(str(uploaded_tensor_moments[idx][column_index]))
-                if column_index == 0:
-                    item.setCheckState(QtCore.Qt.Unchecked)
-                self.ui.tensor_moments_tableWidget.setItem(row_index, column_index, item)
+        file_name = QFileDialog.getOpenFileName(self, 'Upload tensor moments', cur_dir, filter=file_filter,
+                                                options=QFileDialog.Options())[0]
+        try:
+            uploaded_tensor_moments = np.load(file_name)
+            row_count = self.ui.tensor_moments_tableWidget.rowCount()
+            self.ui.tensor_moments_tableWidget.setRowCount(row_count + uploaded_tensor_moments.shape[0])
+            new_row_count = self.ui.tensor_moments_tableWidget.rowCount()
+            for idx, row_index in enumerate(range(row_count, new_row_count)):
+                for column_index in range(self.ui.tensor_moments_tableWidget.columnCount()):
+                    item = QTableWidgetItem(str(uploaded_tensor_moments[idx][column_index]))
+                    if column_index == 0:
+                        item.setCheckState(QtCore.Qt.Unchecked)
+                    self.ui.tensor_moments_tableWidget.setItem(row_index, column_index, item)
+        except FileNotFoundError:
+            pass
 
     def set_all_items_checked(self):
         row_count = self.ui.tensor_moments_tableWidget.rowCount()
