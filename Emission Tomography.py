@@ -19,9 +19,14 @@ class MyAPP(QMainWindow):
         try:
             TableInfo.table_data = np.load('current_tensor_moments.npy')
             TableInfo.check_status = np.load('rows_check_states.npy')
-            # to set data to table
-            self.set_table_data(TableInfo.table_data, TableInfo.check_status)
-            self.save_table_and_update_tensor_moments()
+            if len(TableInfo.table_data):
+                # to set data to table
+                self.set_table_data(TableInfo.table_data, TableInfo.check_status)
+                self.save_table_and_update_tensor_moments()
+            else:
+                SummationComponents.enabled_tensor_moments = tensor_moments
+                TableInfo.check_status = np.empty(0)
+                self.set_table_data(SummationComponents.enabled_tensor_moments, TableInfo.check_status)
         except FileNotFoundError:
             SummationComponents.enabled_tensor_moments = tensor_moments
             TableInfo.check_status = np.empty(0)
@@ -82,7 +87,6 @@ class MyAPP(QMainWindow):
         self.ui.horizontalSlider.setValue(SummationComponents.current_sample)
         SummationComponents.window = self.ui.window_size_spinBox.value()
         SummationComponents.time_in_milliseconds = SummationComponents.current_sample * (SummationComponents.dt * 1000)
-        print(SummationComponents.enabled_tensor_moments)
         ChartsInfo.detect_func, SummationComponents.tensor_indexes = et.compute_detect_func_with_focal_mechanisms(
             SummationComponents.gather, SummationComponents.travel_times,
             SummationComponents.sources, SummationComponents.receivers,
@@ -219,27 +223,27 @@ class MyAPP(QMainWindow):
 
     # to upload files to list widgets
     def upload_sgy(self):
-        cur_dir = os.curdir
+        outer_dir = os.path.dirname(os.getcwd())
         file_filter = 'Data File(s) (*.sgy)'
-        current_gathers = QFileDialog.getOpenFileNames(self, 'Load gathers', cur_dir, filter=file_filter,
+        current_gathers = QFileDialog.getOpenFileNames(self, 'Load gathers', outer_dir, filter=file_filter,
                                                        options=QFileDialog.Options())[0]
         FileNamesList.gathers.extend(current_gathers)
         for current_gather in current_gathers:
             self.ui.gather_listWidget.addItem(current_gather.split(sep='/')[-1])
 
     def upload_tt(self):
-        cur_dir = os.curdir
+        outer_dir = os.path.dirname(os.getcwd())
         file_filter = 'Data File(s) (*.npy)'
-        file_names = QFileDialog.getOpenFileNames(self, 'Load travel times', cur_dir, filter=file_filter,
+        file_names = QFileDialog.getOpenFileNames(self, 'Load travel times', outer_dir, filter=file_filter,
                                                   options=QFileDialog.Options())[0]
         FileNamesList.travel_times.extend(file_names)
         for file_name in file_names:
             self.ui.travel_times_listWidget.addItem(file_name.split(sep='/')[-1])
 
     def upload_sc(self):
-        cur_dir = os.curdir
+        outer_dir = os.path.dirname(os.getcwd())
         file_filter = 'Data File(s) (*.npy)'
-        file_names = QFileDialog.getOpenFileNames(self, 'Load sources coordinates', cur_dir, filter=file_filter,
+        file_names = QFileDialog.getOpenFileNames(self, 'Load sources coordinates', outer_dir, filter=file_filter,
                                                   options=QFileDialog.Options())[0]
         FileNamesList.sources.extend(file_names)
         for file_name in file_names:
@@ -352,7 +356,9 @@ class MyAPP(QMainWindow):
             if len(row_data) == TENSOR_MATRIX_SIZE:
                 current_tensor_moments.append(row_data)
                 rows_check_states.append(self.ui.tensor_moments_tableWidget.item(row_index, 0).checkState())
-            elif rows_check_states[row_index] == CHECKED and entrance_count < 1:
+            elif len(row_data) != TENSOR_MATRIX_SIZE and\
+                    self.ui.tensor_moments_tableWidget.item(row_index, 0).checkState() == CHECKED \
+                    and entrance_count < 1:
                 entrance_count += 1
                 msg_box = QMessageBox()
                 msg_box.setText('Fill in the blanks!')
@@ -377,9 +383,9 @@ class MyAPP(QMainWindow):
             self.ui.plot_pushButton.setEnabled(True)
 
     def upload_tensor_moments(self):
-        cur_dir = os.curdir
+        outer_dir = os.path.dirname(os.getcwd())
         file_filter = 'Data File (*.npy)'
-        file_name = QFileDialog.getOpenFileName(self, 'Upload tensor moments', cur_dir, filter=file_filter,
+        file_name = QFileDialog.getOpenFileName(self, 'Upload tensor moments', outer_dir, filter=file_filter,
                                                 options=QFileDialog.Options())[0]
         try:
             uploaded_tensor_moments = np.load(file_name)
