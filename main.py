@@ -308,6 +308,7 @@ class MyAPP(QMainWindow):
         self.ui.tensor_moments_tableWidget.setHorizontalHeaderLabels(['M11', 'M22', 'M33', 'M23', 'M13', 'M12'])
         # allowing user only digit inputs
         delegate = StyledItemDelegate(self.ui.tensor_moments_tableWidget)
+        delegate.regex = r"^-?(\d*\.)?\d+$"
         for column_index in range(column_count):
             column_header.setSectionResizeMode(column_index, QHeaderView.Stretch)
             self.ui.tensor_moments_tableWidget.setItemDelegateForColumn(column_index, delegate)

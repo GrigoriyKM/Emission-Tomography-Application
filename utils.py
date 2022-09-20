@@ -114,11 +114,16 @@ class ColorBars:
 
 
 class StyledItemDelegate(QtWidgets.QStyledItemDelegate):
+
+    def __init__(self, regex):
+        super().__init__()
+        self.regex = regex
+
     def createEditor(self, parent, option, index):
         editor = super().createEditor(parent, option, index)
         if isinstance(editor, QtWidgets.QLineEdit):
             validator = QtGui.QRegExpValidator(
-                QtCore.QRegExp(r"^-?(\d*\.)?\d+$"), editor
+                QtCore.QRegExp(self.regex), editor
             )
             editor.setValidator(validator)
         return editor

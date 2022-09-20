@@ -6,10 +6,6 @@ import atexit
 
 
 class CorrectionWindow(QtWidgets.QWidget):
-    """
-    This "window" is a QWidget. If it has no parent, it
-    will appear as a free-floating window as we want.
-    """
 
     def __init__(self):
         QtWidgets.QWidget.__init__(self)
@@ -69,13 +65,19 @@ class CorrectionWindow(QtWidgets.QWidget):
         self.correction_table = QtWidgets.QTableWidget()
         column_count = 2
         column_header = self.correction_table.horizontalHeader()
-        self.delegate = StyledItemDelegate(self.correction_table)
+        self.delegate1 = StyledItemDelegate(self.correction_table)
+        self.delegate1.regex = r"\d+$"
+        self.delegate2 = StyledItemDelegate(self.correction_table)
+        self.delegate2.regex = r"^-?(\d*\.)?\d+$"
         row_count = 0
         self.correction_table.setColumnCount(column_count)
         self.correction_table.setRowCount(row_count)
         for column_index in range(column_count):
             column_header.setSectionResizeMode(column_index, QtWidgets.QHeaderView.Stretch)
-            self.correction_table.setItemDelegateForColumn(column_index, self.delegate)
+            if column_index:
+                self.correction_table.setItemDelegateForColumn(column_index, self.delegate2)
+                continue
+            self.correction_table.setItemDelegateForColumn(column_index, self.delegate1)
 
         self.correction_table.setHorizontalHeaderLabels(['# RECS', 'CORRECTION, ms'])
         layout_v.addWidget(self.correction_table)
@@ -160,7 +162,8 @@ class CorrectionWindow(QtWidgets.QWidget):
             try:
                 key, val = np.float64(self.correction_table.item(row_index, 0).text()), \
                         np.float64(self.correction_table.item(row_index, 1).text())
-            except ValueError:
+
+            except (AttributeError, ValueError):
                 continue
             data.append([key, val])
         data = np.array(data)
@@ -181,7 +184,3 @@ class CorrectionWindow(QtWidgets.QWidget):
             np.save(corr_travel_times_name, corr_travel_times)
             FileNamesList.travel_times.extend(corr_travel_times_name)
             list_widget.addItem(corr_travel_times_name.split(sep='/')[-1])
-
-    @atexit.register
-    def close_window(self):
-        self.close()
